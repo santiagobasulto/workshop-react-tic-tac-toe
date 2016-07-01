@@ -28,7 +28,8 @@ class TicTacToeGame extends React.Component {
     let board = this.state.board;
     board[row][col] = player(this.state.nextPlayer);
     let nextPlayer = !this.state.nextPlayer;
-    this.setState({board, nextPlayer, winner: 'X'});
+    let winner = checkWinner(board);
+    this.setState({board, nextPlayer, winner});
   }
   render () {
     return <div className="center-block game-container">
