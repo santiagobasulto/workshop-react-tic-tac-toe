@@ -1,14 +1,31 @@
 import React from 'react'
 import Board from './components/Board';
 
+let player = (() => {
+  let map = new Map([
+    [true, 'X'],
+    [false, 'O']
+  ]);
+  return ((pl) => map.get(pl));
+})();
+
 class TicTacToeGame extends React.Component {
-  constructor(props){
-    super(props);
-    this.store = props.store;
-    this.state = props.store.getState();
+  constructor(){
+    super();
+    this.state = {
+      board: [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+      ],
+      nextPlayer: true
+    };
   }
   handleGameMove(row, col){
-    this.store.dispatch({type: 'MOVE', row, col});
+    let board = this.state.board;
+    board[row][col] = player(this.state.nextPlayer);
+    let nextPlayer = !this.state.nextPlayer;
+    this.setState({board, nextPlayer});
   }
   render () {
     return <div className="center-block game-container">
@@ -19,14 +36,9 @@ class TicTacToeGame extends React.Component {
       </div>
       <Board board={this.state.board} onGameMove={this.handleGameMove.bind(this)}/>
       <div className="row text-center player-info">
-        <p>Next player: <span>{this.state.nextPlayer}</span></p>
+        <p>Next player: <span>{player(this.state.nextPlayer)}</span></p>
       </div>
     </div>
-  }
-  componentWillMount() {
-    let store = this.store;
-    let self = this;
-    store.subscribe(() => self.setState(store.getState()))
   }
 }
 
