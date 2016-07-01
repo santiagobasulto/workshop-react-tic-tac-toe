@@ -1,5 +1,6 @@
 import React from 'react'
 import Board from './components/Board';
+import {checkWinner} from './services';
 
 let player = (() => {
   let map = new Map([
@@ -8,6 +9,7 @@ let player = (() => {
   ]);
   return ((pl) => map.get(pl));
 })();
+
 
 class TicTacToeGame extends React.Component {
   constructor(){
@@ -18,6 +20,7 @@ class TicTacToeGame extends React.Component {
         [null, null, null],
         [null, null, null]
       ],
+      winner: null,
       nextPlayer: true
     };
   }
@@ -25,7 +28,7 @@ class TicTacToeGame extends React.Component {
     let board = this.state.board;
     board[row][col] = player(this.state.nextPlayer);
     let nextPlayer = !this.state.nextPlayer;
-    this.setState({board, nextPlayer});
+    this.setState({board, nextPlayer, winner: 'X'});
   }
   render () {
     return <div className="center-block game-container">
@@ -34,7 +37,7 @@ class TicTacToeGame extends React.Component {
           <h1>React - Tic Tac Toe</h1>
         </div>
       </div>
-      <Board board={this.state.board} onGameMove={this.handleGameMove.bind(this)}/>
+      <Board board={this.state.board} onGameMove={this.handleGameMove.bind(this)} winner={this.state.winner}/>
       <div className="row text-center player-info">
         <p>Next player: <span>{player(this.state.nextPlayer)}</span></p>
       </div>
