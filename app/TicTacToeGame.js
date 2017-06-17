@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Board from './components/Board';
 import {checkWinner} from './services';
 
@@ -39,10 +39,13 @@ class TicTacToeGame extends React.Component {
         </div>
       </div>
       <Board board={this.state.board} onGameMove={this.handleGameMove.bind(this)} winner={this.state.winner}/>
-      <div className="row text-center player-info">
-        <p>Next player: <span>{player(this.state.nextPlayer)}</span></p>
-      </div>
-    </div>
+
+      { !this.state.winner &&
+        <div className="row text-center player-info">
+          <p>Next player: <span>{player(this.state.nextPlayer)}</span></p>
+        </div>
+      }
+    </div>;
   }
 }
 
